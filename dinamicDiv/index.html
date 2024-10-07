@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamaños de Div</title>
+</head>
+<style>
+    body{
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        place-items: center;
+    }
+
+    .container{
+        height: 10vh;
+        width: 10vw;
+        border: 1px solid black;
+     
+    }
+</style>
+<body>
+    <label for="heigth">Select the Height</label>
+    <input type="range"  id="height">
+    <label for="width">Select the Width</label>
+    <input type="range"  id="width">
+    <div class="container"></div>
+    <script src="./app.js"></script>
+</body>
+</html>
