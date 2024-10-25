@@ -3,22 +3,27 @@ const divTareas = document.getElementById('tareas');
 const myForm = document.querySelector('#myForm');
 
 let arrayTareas = localStorage.getItem('tareas')
-                        ? JSON.parse(localStorage.getItem('tareas'))
-                        : [];
+    ? JSON.parse(localStorage.getItem('tareas'))
+    : [];
 
 const addTarea = () => {
     const tarea = inputTarea.value;
     inputTarea.value = '';
     arrayTareas.push({
-        tarea:tarea,
-        estado:'danger',
-        id: Math.floor(Math.random *1000)
-    })
-}
+        tarea: tarea,
+        estado: 'danger',
+        id: Math.floor(Math.random() * 1000)  // Llamado correcto a Math.random()
+    });
+    construyeDivs();
+};
 
 const construyeDivs = () => {
-    localStorage.setItem('tareas', JSON.stringify(arrayTareas))
-}
+    divTareas.innerHTML = '';
+    arrayTareas.forEach(tarea => {
+        divTareas.appendChild(createTarea(tarea));
+    });
+    localStorage.setItem('tareas', JSON.stringify(arrayTareas));
+};
 
 const deleteItem = (e) => {
     const cDiv = e.target.parentElement;
@@ -26,7 +31,7 @@ const deleteItem = (e) => {
     arrayTareas = arrayTareas.filter(tarea => tarea.id !== Number(id));
     cDiv.remove();
     localStorage.setItem('tareas', JSON.stringify(arrayTareas));
-}
+};
 
 const createTarea = (tarea) => {
     const div = document.createElement('div');
@@ -42,7 +47,7 @@ const createTarea = (tarea) => {
     div.appendChild(p);
     div.appendChild(button);
     div.classList.add('alert');
-    div.classList.add('data-d', tarea.estado);
+    div.classList.add(tarea.estado); // Asignación de clase correcta
     div.setAttribute('data-id', tarea.id);
     div.addEventListener('click', changeColor);
     return div;
@@ -53,12 +58,12 @@ const updateTarea = (event) => {
     const div = editButton.parentElement;
     const paragraph = div.querySelector('p');
     const id = div.getAttribute('data-id');
-    const replaceText = prompt('Ingrese el nuevo texto:', paragraph.innerText);   
+    const replaceText = prompt('Ingrese el nuevo texto:', paragraph.innerText);
     paragraph.innerText = replaceText;
     const tareaIndex = arrayTareas.findIndex(tarea => tarea.id == id);
     arrayTareas[tareaIndex].tarea = replaceText;
     localStorage.setItem('tareas', JSON.stringify(arrayTareas));
-}
+};
 
 const changeColor = (e) => {
     const cDiv = e.target;
@@ -74,11 +79,11 @@ const changeColor = (e) => {
         arrayTareas[encontrado].estado = 'success';
     }
     localStorage.setItem('tareas', JSON.stringify(arrayTareas));
-}
+};
 
 construyeDivs();
 
 myForm.addEventListener('submit', (e) => {
     e.preventDefault();
     addTarea();
-})
+});
